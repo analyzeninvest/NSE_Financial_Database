@@ -1,1 +1,37 @@
- This is the NSE financial database
+
+* What it is?
+This is a code to scrape the Moneycontrol & generate the datebase for
+the NSE Stocks. The Database will have all the financial info of all
+the NSE listed stocks. 
+
+The purpose for this code is to get all the stocks & its financial
+databse for future use & immune to parent website changes. This is
+going to make web scraping unnecessary.
+
+* How it is? 
+
+Will have a python script for this task that will scrape the
+moneycontrol website. Next it will go through each of the financial
+pages like income statement, balance sheet, cash flow statement, key
+ratios & make a xls file for the same.
+
+* Planned tasks [0/3]
+
+- [ ] plan the activities
+- [ ] make the python script
+  - [ ] pull financials from moneycontrol
+    - [ ] income statement
+    - [ ] balance sheet
+    - [ ] cash flow
+    - [ ] key ratios
+  - [ ] save to xls with pages
+- [ ] run script to generate xls for each stock listed in NSE
+
+
+
+
+
+
+
+
+
