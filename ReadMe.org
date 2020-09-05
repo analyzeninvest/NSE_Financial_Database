@@ -27,11 +27,3 @@ ratios & make a xls file for the same.
   - [ ] save to xls with pages
 - [ ] run script to generate xls for each stock listed in NSE
 
-
-
-
-
-
-
-
-
