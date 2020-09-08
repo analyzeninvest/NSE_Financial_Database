@@ -1,43 +1,60 @@
 #!/usr/bin/env python
 
 def pull_financial_statement_from_moneycontrol(stock_ticker):
-    pull_profit_and_loss_statement_from_moneycontrol(stock_ticker)
-    pull_balance_sheet_from_moenycontrol(stock_ticker)
-    pull_cash_flow_statement_from_moenyontrol(stock_ticker)
-    pull_key_ratios_from_moneycontrol(stock_ticker)
-    pass
+    profit_and_loss_stateents = pull_profit_and_loss_statement_from_moneycontrol(stock_ticker)
+    balance_sheets = pull_balance_sheet_from_moenycontrol(stock_ticker)
+    cash_flow_statements = pull_cash_flow_statement_from_moenyontrol(stock_ticker)
+    ratios = pull_key_ratios_from_moneycontrol(stock_ticker)
+    financials = {"Profit and Loss Statement": profit_and_loss_stateents,
+                  "Balance Sheet" : balance_sheets,
+                  "Cash Flow" : cash_flow_statements,
+                  "Key Ratios" : ratios
+                  }
+    return(financials)
 
 def pull_profit_and_loss_statement_from_moneycontrol(stock_ticker):
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "income statement")
+    standalone_profit_and_loss_statement_current_page = []
+    consolidated_profit_and_loss_statement_current_page = []
     for url in all_urls["standalone"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
+        standalone_profit_and_loss_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
-    pass
+        consolidated_profit_and_loss_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+    profit_and_loss_statements = {"Standalone" : standalone_profit_and_loss_statement_current_page, "consolidated" : consolidated_profit_and_loss_statement_current_page}
+    return(profit_and_loss_statements)
 
 def pull_balance_sheet_from_moenycontrol(stock_ticker):
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "balance sheet")
+    standalone_balance_sheet_current_page = []
+    consolidated_balance_sheet_current_page = []
     for url in all_urls["standalone"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
+        standalone_balance_sheet_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
-    pass
+        consolidated_balance_sheet_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+    balance_sheets = {"Standalone" : standalone_balance_sheet_current_page, "consolidated" : consolidated_balance_sheet_current_page}
+    return(balance_sheets)
 
 def pull_cash_flow_statement_from_moenyontrol(stock_ticker):
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "cash flow")
+    standalone_cash_flow_statement_current_page = []
+    consolidated_cash_flow_statement_current_page = []
     for url in all_urls["standalone"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
+        standalone_cash_flow_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
-    pass
+        consolidated_cash_flow_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+    cash_flow_statements = {"Standalone" : standalone_cash_flow_statement_current_page, "consolidated" : consolidated_cash_flow_statement_current_page}
+    return(cash_flow_statements)
 
 def pull_key_ratios_from_moneycontrol(stock_ticker):
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "ratios")
+    standalone_ratios_current_page = []
+    consolidated_ratios_current_page = []
     for url in all_urls["standalone"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
+        standalone_ratios_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
-        pull_attributes_from_moneycontrol(stock_ticker, url)
-    pass
+        consolidated_ratios_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+    ratios = {"Standalone" : standalone_ratios_current_page, "consolidated" : consolidated_ratios_current_page}
+    return(ratios)
 
 def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
     """
@@ -68,7 +85,6 @@ def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
         consolidated_url2 = base_url + 'consolidated-balance-sheetVI/'+ MC_ticker +'/2#' + MC_ticker
         consolidated_url3 = base_url + 'consolidated-balance-sheetVI/'+ MC_ticker +'/3#' + MC_ticker
         consolidated_url4 = base_url + 'consolidated-balance-sheetVI/'+ MC_ticker +'/4#' + MC_ticker
-        pass
     elif financial_type == "income statement":
         standalone_url1 = base_url + 'profit-lossVI/'+ MC_ticker +'/#' + MC_ticker
         standalone_url2 = base_url + 'profit-lossVI/'+ MC_ticker +'/2#' + MC_ticker
@@ -78,7 +94,6 @@ def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
         consolidated_url2 = base_url + 'consolidated-profit-lossVI/'+ MC_ticker +'/2#' + MC_ticker
         consolidated_url3 = base_url + 'consolidated-profit-lossVI/'+ MC_ticker +'/3#' + MC_ticker
         consolidated_url4 = base_url + 'consolidated-profit-lossVI/'+ MC_ticker +'/4#' + MC_ticker
-        pass
     elif financial_type == "cash flow":
         standalone_url1 = base_url + 'cash-flowVI/'+ MC_ticker +'/#' + MC_ticker
         standalone_url2 = base_url + 'cash-flowVI/'+ MC_ticker +'/2#' + MC_ticker
@@ -88,7 +103,6 @@ def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
         consolidated_url2 = base_url + 'consolidated-cash-flowVI/'+ MC_ticker +'/2#' + MC_ticker
         consolidated_url3 = base_url + 'consolidated-cash-flowVI/'+ MC_ticker +'/3#' + MC_ticker
         consolidated_url4 = base_url + 'consolidated-cash-flowVI/'+ MC_ticker +'/4#' + MC_ticker
-        pass
     elif financial_type == "ratios":
         standalone_url1 = base_url + 'ratiosVI/'+ MC_ticker +'/#' + MC_ticker
         standalone_url2 = base_url + 'ratiosVI/'+ MC_ticker +'/2#' + MC_ticker
@@ -98,7 +112,6 @@ def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
         consolidated_url2 = base_url + 'consolidated-ratiosVI/'+ MC_ticker +'/2#' + MC_ticker
         consolidated_url3 = base_url + 'consolidated-ratiosVI/'+ MC_ticker +'/3#' + MC_ticker
         consolidated_url4 = base_url + 'consolidated-ratiosVI/'+ MC_ticker +'/4#' + MC_ticker
-        pass
     return({"standalone":[standalone_url1, standalone_url2, standalone_url3, standalone_url4],"consolidated":[consolidated_url1, consolidated_url2, consolidated_url3, consolidated_url4]})
 
 def google_moneycontrol_base_sitename(stock_ticker):
@@ -111,7 +124,7 @@ def google_moneycontrol_base_sitename(stock_ticker):
     ratio_url = ""
     google_search_op_string = search(query = query_string, stop =20 )
     for url in google_search_op_string:
-        print(url)
+        #print(url)
         match = re.match("(https://www.moneycontrol.com/financials/.*?/).*?[/]([0-9A-Z]+)", url)
         if match:
             ratio_url = match.group(1)
@@ -134,7 +147,7 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
             match = re.match(".td.(.*)[<]span class=.ttn.[>](.*)[<].*[>][<].*[>]", str(td))
             if match:
                 main_key = match.group(1) + match.group(2)
-                print(main_key)
+                #print(main_key)
             else:
                 match = re.match(".td.Mar ([0-9][0-9])..td.", str(td))
                 if match:
@@ -152,14 +165,14 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
                             key_item_pair[key].append(item)
     init = {"Name": main_key, "Year": year}
     financials = {**init, **key_item_pair}
-    print(financials)
-    pass
+    return financials
 
 def main():
-    pull_cash_flow_statement_from_moenyontrol('TCS')
+    #cash_flow = pull_cash_flow_statement_from_moenyontrol('TCS')
+    #print(cash_flow)
     #print(get_url_of_moneycontrol_from_ticker('TCS', "cash flow"))
     #print(google_moneycontrol_base_sitename('TCS'))
-    
+    print(pull_financial_statement_from_moneycontrol('TCS'))
 main()
 
 """
