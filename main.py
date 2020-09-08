@@ -1,6 +1,15 @@
 #!/usr/bin/env python
 
 def pull_financial_statement_from_moneycontrol(stock_ticker):
+    """
+    This Function will pull all the Financial statements from the moneycontrol website.
+    Target Pages are: 
+    1. Profit & Loss / Income Statement
+    2. Balance Sheet
+    3. Cash Flow Statement
+    4. Key Ratios
+    Final Output will be a dictionary. 
+    """
     profit_and_loss_stateents = pull_profit_and_loss_statement_from_moneycontrol(stock_ticker)
     balance_sheets = pull_balance_sheet_from_moenycontrol(stock_ticker)
     cash_flow_statements = pull_cash_flow_statement_from_moenyontrol(stock_ticker)
@@ -13,6 +22,11 @@ def pull_financial_statement_from_moneycontrol(stock_ticker):
     return(financials)
 
 def pull_profit_and_loss_statement_from_moneycontrol(stock_ticker):
+    """
+    This Function will pull the Financial statements from the moneycontrol website.
+    Target Pages is Profit & Loss / Income Statement
+    Final Output will be a dictionary. 
+    """
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "income statement")
     standalone_profit_and_loss_statement_current_page = []
     consolidated_profit_and_loss_statement_current_page = []
@@ -24,6 +38,11 @@ def pull_profit_and_loss_statement_from_moneycontrol(stock_ticker):
     return(profit_and_loss_statements)
 
 def pull_balance_sheet_from_moenycontrol(stock_ticker):
+    """
+    This Function will pull the Financial statements from the moneycontrol website.
+    Target Pages is Balance Sheet
+    Final Output will be a dictionary. 
+    """
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "balance sheet")
     standalone_balance_sheet_current_page = []
     consolidated_balance_sheet_current_page = []
@@ -35,6 +54,11 @@ def pull_balance_sheet_from_moenycontrol(stock_ticker):
     return(balance_sheets)
 
 def pull_cash_flow_statement_from_moenyontrol(stock_ticker):
+    """
+    This Function will pull the Financial statements from the moneycontrol website.
+    Target Pages is Cash Flow Statement
+    Final Output will be a dictionary. 
+    """
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "cash flow")
     standalone_cash_flow_statement_current_page = []
     consolidated_cash_flow_statement_current_page = []
@@ -46,6 +70,11 @@ def pull_cash_flow_statement_from_moenyontrol(stock_ticker):
     return(cash_flow_statements)
 
 def pull_key_ratios_from_moneycontrol(stock_ticker):
+    """
+    This Function will pull the Financial statements from the moneycontrol website.
+    Target Pages is Key Ratios
+    Final Output will be a dictionary. 
+    """
     all_urls = get_url_of_moneycontrol_from_ticker(stock_ticker, "ratios")
     standalone_ratios_current_page = []
     consolidated_ratios_current_page = []
@@ -58,8 +87,8 @@ def pull_key_ratios_from_moneycontrol(stock_ticker):
 
 def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
     """
-    This function will get the URL for the stock of moneycontrol website.
-    example: 
+    This function will get the URL for the stock of moneycontrol website. Both consolidated & standalone pages will be given up to max 20 years.
+    example of MC websites: 
     TCS Standalone Balance Sheet FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/balance-sheetVI/TCS#TCS
     TCS Standalone Balance Sheet FY 15 - 11: https://www.moneycontrol.com/financials/tataconsultancyservices/balance-sheetVI/TCS/2#TCS
     TCS Standalone Balance Sheet FY 10 - 06: https://www.moneycontrol.com/financials/tataconsultancyservices/balance-sheetVI/TCS/3#TCS
@@ -74,6 +103,7 @@ def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
     TCS Consolidated Cash Flow FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-cash-flowVI/TCS#TCS
     TCS Standalone Key Ratio FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/ratiosVI/TCS#TCS
     TCS Consolidated Key Ratio FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-ratiosVI/TCS#TCS
+    Final Output will be the URL as a dictionary.
     """
     base_url, MC_ticker = google_moneycontrol_base_sitename(stock_ticker)
     if financial_type == "balance sheet":
@@ -117,6 +147,7 @@ def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
 def google_moneycontrol_base_sitename(stock_ticker):
     """
     This function will search the base name for the moneycontrol site of the stock_ticker. 
+    Final Output will be the base URL + Moneycontrol ticker symbol 
     """
     from googlesearch import search
     import re
@@ -132,8 +163,12 @@ def google_moneycontrol_base_sitename(stock_ticker):
             break
     return [ratio_url, MC_ticker]
 
-
 def pull_attributes_from_moneycontrol(stock_ticker, url):
+    """
+    Pull data from moneycontrol based on the URL given. Pull the main attribute with values. 
+    Differentiate the main name , year & other values.
+    Final output will be as a dictionary.
+    """
     import requests, re, json
     from bs4 import BeautifulSoup
     #print(url)
@@ -168,45 +203,44 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
     return financials
 
 def main():
+    """
+    Target Output:
+    TCS.json
+    {
+    "Stock Name" : "Tata Consultancy Services"
+    "Ticker" : "TCS"
+    "Fianacial Annual" {
+    "Standalone"{
+    "Profot & Loss Statement"{
+    "year" : ["2020", "2019", "2018", "2017", "2016"],
+    "Revenue from operations[gross]" : [131306.00, 123170.00, 97356.00, 92693.00, 85864.00]
+    },
+    "Balance Sheet"{
+    },
+    "Cash Flow Statement"{
+    },
+    "Ratios"{
+    }
+    },
+    "Consolidated"{
+    "Profot & Loss Statement"{
+    },
+    "Balance Sheet"{
+    },
+    "Cash Flow Statement"{
+    },
+    "Ratios"{
+    }
+    }
+    }
+    }
+    """
     #cash_flow = pull_cash_flow_statement_from_moenyontrol('TCS')
     #print(cash_flow)
     #print(get_url_of_moneycontrol_from_ticker('TCS', "cash flow"))
     #print(google_moneycontrol_base_sitename('TCS'))
     print(pull_financial_statement_from_moneycontrol('TCS'))
-main()
 
-"""
-target output:
-TCS.json
-{
-"Stock Name" : "Tata Consultancy Services"
-"Ticker" : "TCS"
-"Fianacial Annual" {
-"Standalone"{
-"Profot & Loss Statement"{
-"year" : ["2020", "2019", "2018", "2017", "2016"],
-"Revenue from operations[gross]" : [131306.00, 123170.00, 97356.00, 92693.00, 85864.00]
+if __name__ == '__main__':
+    main()
 
-},
-"Balance Sheet"{
-},
-"Cash Flow Statement"{
-},
-"Ratios"{
-}
-},
-"Consolidated"{
-"Profot & Loss Statement"{
-},
-"Balance Sheet"{
-},
-"Cash Flow Statement"{
-},
-"Ratios"{
-}
-}
-}
-
-}
-
-"""
