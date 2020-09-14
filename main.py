@@ -234,27 +234,27 @@ def main():
     {
     "Stock Name" : "Tata Consultancy Services"
     "Ticker" : "TCS"
-    "Fianacial Annual" {
-    "Standalone"{
-    "Profot & Loss Statement"{
+    "Fianacial Annual": {
+    "Standalone": {
+    "Profot & Loss Statement": {
     "year" : ["2020", "2019", "2018", "2017", "2016"],
     "Revenue from operations[gross]" : [131306.00, 123170.00, 97356.00, 92693.00, 85864.00]
     },
-    "Balance Sheet"{
+    "Balance Sheet": {
     },
-    "Cash Flow Statement"{
+    "Cash Flow Statement": {
     },
-    "Ratios"{
+    "Ratios":{
     }
     },
-    "Consolidated"{
-    "Profot & Loss Statement"{
+    "Consolidated":{
+    "Profot & Loss Statement":{
     },
-    "Balance Sheet"{
+    "Balance Sheet":{
     },
-    "Cash Flow Statement"{
+    "Cash Flow Statement":{
     },
-    "Ratios"{
+    "Ratios":{
     }
     }
     }
@@ -266,7 +266,7 @@ def main():
     #print(google_moneycontrol_base_sitename('TCS'))
     import time
     t0 = time.time()
-    print(pull_financial_statement_from_moneycontrol('TCS'))
+    tcs_financials = pull_financial_statement_from_moneycontrol('TCS')
     t1 = time.time()
     t = t1 - t0
     print("Execution Time: ", t)
