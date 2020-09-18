@@ -51,9 +51,21 @@ def pull_profit_and_loss_statement_from_moneycontrol(stock_ticker):
         standalone_profit_and_loss_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
         consolidated_profit_and_loss_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( standalone_profit_and_loss_statement_current_page[0], standalone_profit_and_loss_statement_current_page[1]), standalone_profit_and_loss_statement_current_page[2]), standalone_profit_and_loss_statement_current_page[3])
-    consolidated_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( consolidated_profit_and_loss_statement_current_page[0], consolidated_profit_and_loss_statement_current_page[1]), consolidated_profit_and_loss_statement_current_page[2]), consolidated_profit_and_loss_statement_current_page[3])
-    profit_and_loss_statements = {"Standalone" : standalone_profit_and_loss_statement, "consolidated" : consolidated_profit_and_loss_statement}
+    standalone_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                standalone_profit_and_loss_statement_current_page[0],
+                standalone_profit_and_loss_statement_current_page[1]),
+            standalone_profit_and_loss_statement_current_page[2]),
+        standalone_profit_and_loss_statement_current_page[3])
+    consolidated_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                consolidated_profit_and_loss_statement_current_page[0],
+                consolidated_profit_and_loss_statement_current_page[1]),
+            consolidated_profit_and_loss_statement_current_page[2]),
+        consolidated_profit_and_loss_statement_current_page[3])
+    profit_and_loss_statements = {"Standalone" : standalone_profit_and_loss_statement, "Consolidated" : consolidated_profit_and_loss_statement}
     return(profit_and_loss_statements)
 
 def pull_balance_sheet_from_moenycontrol(stock_ticker):
@@ -69,9 +81,21 @@ def pull_balance_sheet_from_moenycontrol(stock_ticker):
         standalone_balance_sheet_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
         consolidated_balance_sheet_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_balance_sheet = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( standalone_balance_sheet_current_page[0], standalone_balance_sheet_current_page[1]), standalone_balance_sheet_current_page[2]), standalone_balance_sheet_current_page[3])
-    consolidated_balance_sheet = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( consolidated_balance_sheet_current_page[0], consolidated_balance_sheet_current_page[1]), consolidated_balance_sheet_current_page[2]), consolidated_balance_sheet_current_page[3])
-    balance_sheets = {"Standalone" : standalone_balance_sheet, "consolidated" : consolidated_balance_sheet}
+    standalone_balance_sheet = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                standalone_balance_sheet_current_page[0],
+                standalone_balance_sheet_current_page[1]),
+            standalone_balance_sheet_current_page[2]),
+        standalone_balance_sheet_current_page[3])
+    consolidated_balance_sheet = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                consolidated_balance_sheet_current_page[0],
+                consolidated_balance_sheet_current_page[1]),
+            consolidated_balance_sheet_current_page[2]),
+        consolidated_balance_sheet_current_page[3])
+    balance_sheets = {"Standalone" : standalone_balance_sheet, "Consolidated" : consolidated_balance_sheet}
     return(balance_sheets)
 
 def pull_cash_flow_statement_from_moenyontrol(stock_ticker):
@@ -87,9 +111,21 @@ def pull_cash_flow_statement_from_moenyontrol(stock_ticker):
         standalone_cash_flow_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
         consolidated_cash_flow_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_cash_flow_statement = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( standalone_cash_flow_statement_current_page[0], standalone_cash_flow_statement_current_page[1]), standalone_cash_flow_statement_current_page[2]), standalone_cash_flow_statement_current_page[3])
-    consolidated_cash_flow_statement = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( consolidated_cash_flow_statement_current_page[0], consolidated_cash_flow_statement_current_page[1]), consolidated_cash_flow_statement_current_page[2]), consolidated_cash_flow_statement_current_page[3])
-    cash_flow_statements = {"Standalone" : standalone_cash_flow_statement, "consolidated" : consolidated_cash_flow_statement}
+    standalone_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                standalone_cash_flow_statement_current_page[0],
+                standalone_cash_flow_statement_current_page[1]),
+            standalone_cash_flow_statement_current_page[2]),
+        standalone_cash_flow_statement_current_page[3])
+    consolidated_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                consolidated_cash_flow_statement_current_page[0],
+                consolidated_cash_flow_statement_current_page[1]),
+            consolidated_cash_flow_statement_current_page[2]),
+        consolidated_cash_flow_statement_current_page[3])
+    cash_flow_statements = {"Standalone" : standalone_cash_flow_statement, "Consolidated" : consolidated_cash_flow_statement}
     return(cash_flow_statements)
 
 def pull_key_ratios_from_moneycontrol(stock_ticker):
@@ -105,29 +141,26 @@ def pull_key_ratios_from_moneycontrol(stock_ticker):
         standalone_ratios_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
     for url in all_urls["consolidated"]:
         consolidated_ratios_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_ratios = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( standalone_ratios_current_page[0], standalone_ratios_current_page[1]), standalone_ratios_current_page[2]), standalone_ratios_current_page[3])
-    consolidated_ratios = merge_array_of_2_dictionary_with_same_key( merge_array_of_2_dictionary_with_same_key(  merge_array_of_2_dictionary_with_same_key( consolidated_ratios_current_page[0], consolidated_ratios_current_page[1]), consolidated_ratios_current_page[2]), consolidated_ratios_current_page[3])
-    ratios = {"Standalone" : standalone_ratios, "consolidated" : consolidated_ratios}
+    standalone_ratios = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                standalone_ratios_current_page[0],
+                standalone_ratios_current_page[1]),
+            standalone_ratios_current_page[2]),
+        standalone_ratios_current_page[3])
+    consolidated_ratios = merge_array_of_2_dictionary_with_same_key(
+        merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                consolidated_ratios_current_page[0],
+                consolidated_ratios_current_page[1]),
+            consolidated_ratios_current_page[2]),
+        consolidated_ratios_current_page[3])
+    ratios = {"Standalone" : standalone_ratios, "Consolidated" : consolidated_ratios}
     return(ratios)
 
 def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
     """
     This function will get the URL for the stock of moneycontrol website. Both consolidated & standalone pages will be given up to max 20 years.
-    example of MC websites: 
-    TCS Standalone Balance Sheet FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/balance-sheetVI/TCS#TCS
-    TCS Standalone Balance Sheet FY 15 - 11: https://www.moneycontrol.com/financials/tataconsultancyservices/balance-sheetVI/TCS/2#TCS
-    TCS Standalone Balance Sheet FY 10 - 06: https://www.moneycontrol.com/financials/tataconsultancyservices/balance-sheetVI/TCS/3#TCS
-    TCS Standalone Balance Sheet FY 05 - 04: https://www.moneycontrol.com/financials/tataconsultancyservices/balance-sheetVI/TCS/4#TCS
-    TCS Consolidated Balance Sheet FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-balance-sheetVI/TCS#TCS
-    TCS Consolidated Balance Sheet FY 15 - 11: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-balance-sheetVI/TCS/2#TCS
-    TCS Consolidated Balance Sheet FY 10 - 06: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-balance-sheetVI/TCS/3#TCS
-    TCS Consolidated Balance Sheet FY 05 - 04: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-balance-sheetVI/TCS/4#TCS
-    TCS Standalone Profit & Loss FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/profit-lossVI/TCS#TCS
-    TCS Consolidated Profit & Loss FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-profit-lossVI/TCS#TCS
-    TCS Standalone Cash Flow FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/cash-flowVI/TCS#TCS
-    TCS Consolidated Cash Flow FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-cash-flowVI/TCS#TCS
-    TCS Standalone Key Ratio FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/ratiosVI/TCS#TCS
-    TCS Consolidated Key Ratio FY 20 - 16: https://www.moneycontrol.com/financials/tataconsultancyservices/consolidated-ratiosVI/TCS#TCS
     Final Output will be the URL as a dictionary.
     """
     base_url, MC_ticker = google_moneycontrol_base_sitename(stock_ticker)
@@ -227,38 +260,58 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
     financials = {**init, **key_item_pair}
     return financials
 
+def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
+    """
+    This function will build the pandas dataframe & make the excel file.
+    """
+    import pandas as pd
+    from openpyxl import load_workbook
+    import openpyxl
+    filepath = '/home/arnashree/analyzeninvest-projects/NSE_Financial_Database/' + stock_ticker + '.xlsx'
+    wb = openpyxl.Workbook()
+    wb.save(filepath)
+    wb.close()
+    writer = pd.ExcelWriter(filepath, engine = 'openpyxl')
+    writer.book = load_workbook(filepath)
+    writer.sheets = dict((ws.title, ws) for ws in writer.book.worksheets)
+    for key in financial_data:
+        df_item = pd.DataFrame(data=financial_data[key])
+        item = financial_data[key]
+        standalone_item = item["Standalone"]
+        consolidated_item = item["Consolidated"]
+        for sub_key in standalone_item:
+            length = len(standalone_item[sub_key])
+            if length == 0 or length < 20:
+                filler = ["--"] * (20 - length)
+                standalone_item[sub_key].extend(filler)
+        for sub_key in consolidated_item:
+            length = len(consolidated_item[sub_key])
+            if length == 0 or length < 20:
+                filler = ["--"] * (20 - length)
+                consolidated_item[sub_key].extend(filler)
+        df_standalone_item = pd.DataFrame(data = standalone_item)
+        df_consolidated_item = pd.DataFrame(data = consolidated_item)
+        standalone_sheet_name = "Standalone " + str(standalone_item["Name"])
+        consolidated_sheet_name = "Consolidated " + str(consolidated_item["Name"])
+        standalone_csv_name = "Standalone " + str(standalone_item["Name"]) + ".csv"
+        consolidated_csv_name = "Consolidated " + str(consolidated_item["Name"]) + ".csv"
+        df_standalone_item.to_excel(filepath, sheet_name = standalone_sheet_name)
+        df_consolidated_item.to_excel(filepath, sheet_name = consolidated_sheet_name)
+        df_standalone_item.to_csv(standalone_csv_name)
+        df_consolidated_item.to_csv(consolidated_csv_name)
+        #print(df_standalone_item)
+        #print(df_consolidated_item)
+        #print(df_item)
+    writer.save()
+    writer.close()
+    #df_stock_financials  = pd.DataFrame(data=financial_data)
+    #print(df_stock_financials)
+
+    
+
 def main():
     """
-    Target Output:
-    TCS.json
-    {
-    "Stock Name" : "Tata Consultancy Services"
-    "Ticker" : "TCS"
-    "Fianacial Annual": {
-    "Standalone": {
-    "Profot & Loss Statement": {
-    "year" : ["2020", "2019", "2018", "2017", "2016"],
-    "Revenue from operations[gross]" : [131306.00, 123170.00, 97356.00, 92693.00, 85864.00]
-    },
-    "Balance Sheet": {
-    },
-    "Cash Flow Statement": {
-    },
-    "Ratios":{
-    }
-    },
-    "Consolidated":{
-    "Profot & Loss Statement":{
-    },
-    "Balance Sheet":{
-    },
-    "Cash Flow Statement":{
-    },
-    "Ratios":{
-    }
-    }
-    }
-    }
+    This is only for testing as of now.
     """
     #cash_flow = pull_cash_flow_statement_from_moenyontrol('TCS')
     #print(cash_flow)
@@ -266,7 +319,9 @@ def main():
     #print(google_moneycontrol_base_sitename('TCS'))
     import time
     t0 = time.time()
-    tcs_financials = pull_financial_statement_from_moneycontrol('TCS')
+    stock_financials = pull_financial_statement_from_moneycontrol('TCS')
+    build_dataframe_and_print_to_excel(stock_financials, 'TCS')
+    #print(stock_financials)
     t1 = time.time()
     t = t1 - t0
     print("Execution Time: ", t)
