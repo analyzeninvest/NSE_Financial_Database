@@ -240,6 +240,9 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
             match = re.match(".td.(.*)[<]span class=.ttn.[>](.*)[<].*[>][<].*[>]", str(td))
             if match:
                 main_key = match.group(1) + match.group(2)
+                name_match = re.match("(.*)amp;(.*)", main_key)
+                if name_match:
+                    main_key = name_match.group(1) + name_match.group(2)
                 #print(main_key)
             else:
                 match = re.match(".td.Mar ([0-9][0-9])..td.", str(td))
@@ -267,12 +270,13 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
     import pandas as pd
     from openpyxl import load_workbook
     import openpyxl
-    filepath = '/home/arnashree/analyzeninvest-projects/NSE_Financial_Database/' + stock_ticker + '.xlsx'
+    filepath = '/home/arnashree/analyzeninvest-projects/NSE_Financial_Database/excel_path/'
+    xlsx_path = filepath + stock_ticker + '.xlsx'
     wb = openpyxl.Workbook()
-    wb.save(filepath)
+    wb.save(xlsx_path)
     wb.close()
-    writer = pd.ExcelWriter(filepath, engine = 'openpyxl')
-    writer.book = load_workbook(filepath)
+    writer = pd.ExcelWriter(xlsx_path, engine = 'openpyxl')
+    writer.book = load_workbook(xlsx_path)
     writer.sheets = dict((ws.title, ws) for ws in writer.book.worksheets)
     for key in financial_data:
         df_item = pd.DataFrame(data=financial_data[key])
@@ -293,10 +297,10 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
         df_consolidated_item = pd.DataFrame(data = consolidated_item)
         standalone_sheet_name = "Standalone " + str(standalone_item["Name"])
         consolidated_sheet_name = "Consolidated " + str(consolidated_item["Name"])
-        standalone_csv_name = "Standalone " + str(standalone_item["Name"]) + ".csv"
-        consolidated_csv_name = "Consolidated " + str(consolidated_item["Name"]) + ".csv"
-        df_standalone_item.to_excel(filepath, sheet_name = standalone_sheet_name)
-        df_consolidated_item.to_excel(filepath, sheet_name = consolidated_sheet_name)
+        standalone_csv_name = filepath + "Standalone " + str(standalone_item["Name"]) + ".csv"
+        consolidated_csv_name = filepath + "Consolidated " + str(consolidated_item["Name"]) + ".csv"
+        df_standalone_item.to_excel(xlsx_path, sheet_name = standalone_sheet_name)
+        df_consolidated_item.to_excel(xlsx_path, sheet_name = consolidated_sheet_name)
         df_standalone_item.to_csv(standalone_csv_name)
         df_consolidated_item.to_csv(consolidated_csv_name)
         #print(df_standalone_item)
@@ -319,8 +323,9 @@ def main():
     #print(google_moneycontrol_base_sitename('TCS'))
     import time
     t0 = time.time()
-    stock_financials = pull_financial_statement_from_moneycontrol('TCS')
-    build_dataframe_and_print_to_excel(stock_financials, 'TCS')
+    stock_ticker = 'TCS'
+    stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
+    build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
     #print(stock_financials)
     t1 = time.time()
     t = t1 - t0
