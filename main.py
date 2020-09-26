@@ -268,11 +268,18 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
     This function will build the pandas dataframe & make the excel file.
     """
     import pandas as pd
-    from openpyxl import load_workbook
-    import openpyxl, re
+    #from openpyxl import load_workbook
+    import re, xlsxwriter, openpyxl
     filepath = '/home/arnashree/analyzeninvest-projects/NSE_Financial_Database/excel_path/'
     xlsx_path = filepath + stock_ticker + '.xlsx'
-    writer = pd.ExcelWriter(xlsx_path, engine='xlsxwriter')
+    #writer = pd.ExcelWriter(xlsx_path, engine='xlsxwriter')
+    # workbook = xlsxwriter.Workbook(xlsx_path)
+    # for sheet in ["Standalone_Balance_Sheet", "Standalone_Profit_and_Loss", "Standalone_Ratios", "Standalone_Cash_Flow", "Consolidated_Balance_Sheet", "Consolidated_Profit_and_Loss", "Consolidated_Ratios", "Consolidated_Cash_Flow"]:
+    #     worksheet = workbook.add_worksheet(sheet)
+    # workbook.save()
+    # workbook.close()
+    writer = pd.ExcelWriter(xlsx_path, engine='openpyxl')
+    #workbook  = writer.book
     #wb = openpyxl.Workbook()
     #wb.save(xlsx_path)
     #wb.close()
@@ -319,8 +326,10 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
         #with pd.ExcelWriter(xlsx_path, mode="a", engine = 'openpyxl') as writer:
         #df = pd.DataFrame([['a1', 'a2'], ['b1', 'b2']], index = ['row1', 'row2'], columns = ['col1', 'col2'])
         #df.to_excel(xlsx_path, sheet_name = "sheet", float_format="%.2f", index=True, startrow=1)
-        df_standalone_item.to_excel(xlsx_path, sheet_name = standalone_sheet_name, float_format="%.2f", index=True, startrow=1)
-        df_consolidated_item.to_excel(xlsx_path, sheet_name = consolidated_sheet_name, float_format="%.2f", index=True, startrow=1)
+        #worksheet = writer.sheets['Sheet1']
+        df_standalone_item.to_excel(writer, sheet_name = standalone_sheet_name, float_format="%.2f", index=True, startrow=1)
+        writer.save()
+        df_consolidated_item.to_excel(writer, sheet_name = consolidated_sheet_name, float_format="%.2f", index=True, startrow=1)
         writer.save()
         #df_standalone_item.to_csv(standalone_csv_name)
         #df_consolidated_item.to_csv(consolidated_csv_name)
@@ -348,7 +357,7 @@ def main():
     #print(google_moneycontrol_base_sitename('TCS'))
     import time
     t0 = time.time()
-    stock_ticker = 'TCS'
+    stock_ticker = 'ITC'
     stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
     build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
     #print(stock_financials)
