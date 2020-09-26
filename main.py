@@ -156,6 +156,7 @@ def pull_key_ratios_from_moneycontrol(stock_ticker):
             consolidated_ratios_current_page[2]),
         consolidated_ratios_current_page[3])
     ratios = {"Standalone" : standalone_ratios, "Consolidated" : consolidated_ratios}
+    print(ratios)
     return(ratios)
 
 def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
@@ -214,7 +215,8 @@ def google_moneycontrol_base_sitename(stock_ticker):
     google_search_op_string = search(query = query_string, stop =20 )
     for url in google_search_op_string:
         #print(url)
-        match = re.match("(https://www.moneycontrol.com/financials/.*?/).*?[/]([0-9A-Z]+)", url)
+        match = re.match("(https://www.moneycontrol.com/financials/.*?/).*?[/]([0-9A-Za-z]+)", url)
+        #https://www.moneycontrol.com/financials/relianceindustries/balance-sheetVI/ri
         if match:
             ratio_url = match.group(1)
             MC_ticker = match.group(2)
@@ -311,12 +313,14 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
             sheet_name = "Balance_Sheet"
         elif re.match("Profit & Loss", standalone_item["Name"]):
             sheet_name = "Profit_and_Loss"
-        elif re.match("Ratios", standalone_item["Name"]):
-            sheet_name = "Ratios"
+        elif re.match("Ratio", standalone_item["Name"]):
+            sheet_name = "Ratio"
         elif re.match("Cash Flow", standalone_item["Name"]):
             sheet_name = "Cash_Flow"
         standalone_sheet_name = "Standalone_" + sheet_name
         consolidated_sheet_name = "Consolidated_" + sheet_name
+        #print(standalone_sheet_name)
+        #print(consolidated_sheet_name)
         #standalone_csv_name = filepath + "Standalone " + str(standalone_item["Name"]) + ".csv"
         #consolidated_csv_name = filepath + "Consolidated " + str(consolidated_item["Name"]) + ".csv"
         #df_standalone_item.to_excel(xlsx_path, sheet_name = standalone_sheet_name, float_format="%.2f", index=True, startrow=1)
@@ -357,7 +361,7 @@ def main():
     #print(google_moneycontrol_base_sitename('TCS'))
     import time
     t0 = time.time()
-    stock_ticker = 'ITC'
+    stock_ticker = 'RIL'
     stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
     build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
     #print(stock_financials)
