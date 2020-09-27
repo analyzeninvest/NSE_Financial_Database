@@ -156,7 +156,7 @@ def pull_key_ratios_from_moneycontrol(stock_ticker):
             consolidated_ratios_current_page[2]),
         consolidated_ratios_current_page[3])
     ratios = {"Standalone" : standalone_ratios, "Consolidated" : consolidated_ratios}
-    print(ratios)
+    #print(ratios)
     return(ratios)
 
 def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
@@ -270,25 +270,12 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
     This function will build the pandas dataframe & make the excel file.
     """
     import pandas as pd
-    #from openpyxl import load_workbook
-    import re, xlsxwriter, openpyxl
+    import re
     filepath = '/home/arnashree/analyzeninvest-projects/NSE_Financial_Database/excel_path/'
     xlsx_path = filepath + stock_ticker + '.xlsx'
-    #writer = pd.ExcelWriter(xlsx_path, engine='xlsxwriter')
-    # workbook = xlsxwriter.Workbook(xlsx_path)
-    # for sheet in ["Standalone_Balance_Sheet", "Standalone_Profit_and_Loss", "Standalone_Ratios", "Standalone_Cash_Flow", "Consolidated_Balance_Sheet", "Consolidated_Profit_and_Loss", "Consolidated_Ratios", "Consolidated_Cash_Flow"]:
-    #     worksheet = workbook.add_worksheet(sheet)
-    # workbook.save()
-    # workbook.close()
     writer = pd.ExcelWriter(xlsx_path, engine='openpyxl')
-    #workbook  = writer.book
-    #wb = openpyxl.Workbook()
-    #wb.save(xlsx_path)
-    #wb.close()
-    #writer = pd.ExcelWriter(xlsx_path, engine = 'openpyxl')
-    #writer.book = load_workbook(xlsx_path)
-    #writer.sheets = dict((ws.title, ws) for ws in writer.book.worksheets)
     for key in financial_data:
+        print(key)
         df_item = pd.DataFrame(data=financial_data[key])
         item = financial_data[key]
         standalone_item = item["Standalone"]
@@ -309,45 +296,27 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
         df_consolidated_item = df_consolidated_item.drop(columns=["Name", "Year"])
         df_standalone_item.index.name = "Year"
         df_consolidated_item.index.name = "Year"
+        #print(standalone_item["Name"])
         if re.match("Balance Sheet", standalone_item["Name"]):
             sheet_name = "Balance_Sheet"
+            #print(sheet_name)
         elif re.match("Profit & Loss", standalone_item["Name"]):
             sheet_name = "Profit_and_Loss"
-        elif re.match("Ratio", standalone_item["Name"]):
+            #print(sheet_name)
+        elif re.match("Key Financial Ratios", standalone_item["Name"]):
             sheet_name = "Ratio"
+            #print(sheet_name)
         elif re.match("Cash Flow", standalone_item["Name"]):
             sheet_name = "Cash_Flow"
+            #print(sheet_name)
         standalone_sheet_name = "Standalone_" + sheet_name
         consolidated_sheet_name = "Consolidated_" + sheet_name
-        #print(standalone_sheet_name)
-        #print(consolidated_sheet_name)
-        #standalone_csv_name = filepath + "Standalone " + str(standalone_item["Name"]) + ".csv"
-        #consolidated_csv_name = filepath + "Consolidated " + str(consolidated_item["Name"]) + ".csv"
-        #df_standalone_item.to_excel(xlsx_path, sheet_name = standalone_sheet_name, float_format="%.2f", index=True, startrow=1)
-        #writer.save()
-        #df_consolidated_item.to_excel(xlsx_path, sheet_name = consolidated_sheet_name, float_format="%.2f", index=True, startrow=1)
-        #writer.save()
-        #with pd.ExcelWriter(xlsx_path, mode="a", engine = 'openpyxl') as writer:
-        #df = pd.DataFrame([['a1', 'a2'], ['b1', 'b2']], index = ['row1', 'row2'], columns = ['col1', 'col2'])
-        #df.to_excel(xlsx_path, sheet_name = "sheet", float_format="%.2f", index=True, startrow=1)
-        #worksheet = writer.sheets['Sheet1']
         df_standalone_item.to_excel(writer, sheet_name = standalone_sheet_name, float_format="%.2f", index=True, startrow=1)
         writer.save()
         df_consolidated_item.to_excel(writer, sheet_name = consolidated_sheet_name, float_format="%.2f", index=True, startrow=1)
         writer.save()
-        #df_standalone_item.to_csv(standalone_csv_name)
-        #df_consolidated_item.to_csv(consolidated_csv_name)
-        #print(df_standalone_item)
-        #print(df_consolidated_item)
-        #print(df_item)
-        #with pd.ExcelWriter(xlsx_path, mode="a", engine = 'openpyxl') as writer:
-        #    df = pd.DataFrame([['a1', 'a2'], ['b1', 'b2']], index = ['row1', 'row2'], columns = ['col1', 'col2'])
-        #    df.to_excel(xlsx_path, sheet_name = "sheet", float_format="%.2f", index=True, startrow=1)
-        #    writer.save()
     writer.save()
     writer.close()
-    #df_stock_financials  = pd.DataFrame(data=financial_data)
-    #print(df_stock_financials)
 
     
 
