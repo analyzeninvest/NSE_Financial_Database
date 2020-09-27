@@ -235,6 +235,7 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
     td_all  = soup.find_all('td')
+    main_key = "--"
     year = []
     key_item_pair = {}
     for td in td_all:
@@ -275,19 +276,26 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
     xlsx_path = filepath + stock_ticker + '.xlsx'
     writer = pd.ExcelWriter(xlsx_path, engine='openpyxl')
     for key in financial_data:
-        print(key)
+        #print(key)
         df_item = pd.DataFrame(data=financial_data[key])
         item = financial_data[key]
         standalone_item = item["Standalone"]
         consolidated_item = item["Consolidated"]
         for sub_key in standalone_item:
             length = len(standalone_item[sub_key])
-            if length == 0 or length < 20:
+            #print(length)
+            if length == 0 and type(standalone_item[sub_key]) != str :
+                standalone_item[sub_key] = ["--"] * 20
+            elif length < 20 and type(standalone_item[sub_key]) != str :
                 filler = ["--"] * (20 - length)
+                #print(sub_key)
                 standalone_item[sub_key].extend(filler)
         for sub_key in consolidated_item:
             length = len(consolidated_item[sub_key])
-            if length == 0 or length < 20:
+            #print(length)
+            if length == 0 and type(consolidated_item[sub_key]) != str :
+                consolidated_item[sub_key] = ["--"] * 20
+            elif length < 20 and type(consolidated_item[sub_key]) != str :
                 filler = ["--"] * (20 - length)
                 consolidated_item[sub_key].extend(filler)
         df_standalone_item = pd.DataFrame(data = standalone_item, index = standalone_item["Year"])
@@ -297,16 +305,17 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
         df_standalone_item.index.name = "Year"
         df_consolidated_item.index.name = "Year"
         #print(standalone_item["Name"])
-        if re.match("Balance Sheet", standalone_item["Name"]):
+        sheet_name = ""
+        if re.match("Balance Sheet", standalone_item["Name"]) or re.match("Balance Sheet", consolidated_item["Name"]):
             sheet_name = "Balance_Sheet"
             #print(sheet_name)
-        elif re.match("Profit & Loss", standalone_item["Name"]):
+        elif re.match("Profit & Loss", standalone_item["Name"]) or re.match("Profit & Loss", consolidated_item["Name"]):
             sheet_name = "Profit_and_Loss"
             #print(sheet_name)
-        elif re.match("Key Financial Ratios", standalone_item["Name"]):
+        elif re.match("Key Financial Ratios", standalone_item["Name"]) or re.match("Key Financial Ratios", consolidated_item["Name"]):
             sheet_name = "Ratio"
             #print(sheet_name)
-        elif re.match("Cash Flow", standalone_item["Name"]):
+        elif re.match("Cash Flow", standalone_item["Name"]) or re.match("Cash Flow", consolidated_item["Name"]):
             sheet_name = "Cash_Flow"
             #print(sheet_name)
         standalone_sheet_name = "Standalone_" + sheet_name
@@ -330,7 +339,7 @@ def main():
     #print(google_moneycontrol_base_sitename('TCS'))
     import time
     t0 = time.time()
-    stock_ticker = 'RIL'
+    stock_ticker = 'NMDC'
     stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
     build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
     #print(stock_financials)
