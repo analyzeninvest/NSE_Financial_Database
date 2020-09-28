@@ -35,7 +35,7 @@ def merge_array_of_2_dictionary_with_same_key(dict1, dict2):
                     merged_array = dict1.get(key1) + dict2.get(key2)
                     merged_dict[key2] = merged_array
                 else:
-                    merged_dict[key2] = dict2.get(key2)
+                    merged_dict[key1] = dict1.get(key1)
     return(merged_dict)
                 
 def pull_profit_and_loss_statement_from_moneycontrol(stock_ticker):
@@ -108,23 +108,59 @@ def pull_cash_flow_statement_from_moenyontrol(stock_ticker):
     standalone_cash_flow_statement_current_page = []
     consolidated_cash_flow_statement_current_page = []
     for url in all_urls["standalone"]:
-        standalone_cash_flow_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            standalone_cash_flow_statement_current_page.append(current_financials)
     for url in all_urls["consolidated"]:
-        consolidated_cash_flow_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            consolidated_cash_flow_statement_current_page.append(current_financials)
+    standalone_array_length = len(standalone_cash_flow_statement_current_page)
+    if standalone_array_length == 4:
+        standalone_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    standalone_cash_flow_statement_current_page[0],
+                    standalone_cash_flow_statement_current_page[1]),
+                standalone_cash_flow_statement_current_page[2]),
+            standalone_cash_flow_statement_current_page[3])
+    elif standalone_array_length == 3:
+        standalone_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 standalone_cash_flow_statement_current_page[0],
                 standalone_cash_flow_statement_current_page[1]),
-            standalone_cash_flow_statement_current_page[2]),
-        standalone_cash_flow_statement_current_page[3])
-    consolidated_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+            standalone_cash_flow_statement_current_page[2])
+    elif standalone_array_length == 2:
+        standalone_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
+            standalone_cash_flow_statement_current_page[0],
+            standalone_cash_flow_statement_current_page[1])
+    elif standalone_array_length == 1:
+        standalone_cash_flow_statement = standalone_cash_flow_statement_current_page[0]
+    elif standalone_array_length == 0:
+        standalone_cash_flow_statement = {"Name":"--", "Year":[]}
+    consolidated_array_length = len(consolidated_cash_flow_statement_current_page)
+    if consolidated_array_length == 4:
+        consolidated_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    consolidated_cash_flow_statement_current_page[0],
+                    consolidated_cash_flow_statement_current_page[1]),
+                consolidated_cash_flow_statement_current_page[2]),
+            consolidated_cash_flow_statement_current_page[3])
+    elif consolidated_array_length == 3:
+        consolidated_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 consolidated_cash_flow_statement_current_page[0],
                 consolidated_cash_flow_statement_current_page[1]),
-            consolidated_cash_flow_statement_current_page[2]),
-        consolidated_cash_flow_statement_current_page[3])
+            consolidated_cash_flow_statement_current_page[2])
+    elif consolidated_array_length == 2:
+        consolidated_cash_flow_statement = merge_array_of_2_dictionary_with_same_key(
+                consolidated_cash_flow_statement_current_page[0],
+                consolidated_cash_flow_statement_current_page[1])
+    elif consolidated_array_length == 1:
+        consolidated_cash_flow_statement = consolidated_cash_flow_statement_current_page[0]
+    elif consolidated_array_length == 0:
+        consolidated_cash_flow_statement = {"Name":"--", "Year":[]}
     cash_flow_statements = {"Standalone" : standalone_cash_flow_statement, "Consolidated" : consolidated_cash_flow_statement}
     return(cash_flow_statements)
 
@@ -239,7 +275,10 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
     year = []
     key_item_pair = {}
     for td in td_all:
-        if re.match(".*href=.*", str(td)) is None and re.match(".*td class=.*", str(td)) is None and re.match(".td....td.", str(td)) is None and re.match(".td.12 mths..td.", str(td)) is None:
+        if re.match(".*href=.*", str(td)) is None and \
+        re.match(".*td class=.*", str(td)) is None and \
+        re.match(".td....td.", str(td)) is None and \
+        re.match(".td.12 mths..td.", str(td)) is None:
             match = re.match(".td.(.*)[<]span class=.ttn.[>](.*)[<].*[>][<].*[>]", str(td))
             if match:
                 main_key = match.group(1) + match.group(2)
@@ -262,8 +301,10 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
                         if match:
                             item = match.group(1)
                             key_item_pair[key].append(item)
+    #print(key_item_pair)
     init = {"Name": main_key, "Year": year}
     financials = {**init, **key_item_pair}
+    #print(financials)
     return financials
 
 def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
@@ -339,10 +380,11 @@ def main():
     #print(google_moneycontrol_base_sitename('TCS'))
     import time
     t0 = time.time()
-    stock_ticker = 'NMDC'
-    stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
-    build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
+    stock_ticker = 'BDL'
+    stock_financials = pull_cash_flow_statement_from_moenyontrol(stock_ticker)
     #print(stock_financials)
+    #build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
+    print(stock_financials)
     t1 = time.time()
     t = t1 - t0
     print("Execution Time: ", t)
