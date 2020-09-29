@@ -60,3 +60,6 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
         writer.save()
     writer.save()
     writer.close()
+
+
+    

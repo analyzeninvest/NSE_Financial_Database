@@ -12,7 +12,7 @@ def main():
     from print_and_format_xlsx import build_dataframe_and_print_to_excel
     import time
     t0 = time.time()
-    stock_ticker = 'HINDZINC'
+    stock_ticker = 'SUNTV'
     stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
     #stock_financials = pull_profit_and_loss_statement_from_moneycontrol(stock_ticker)
     #print(stock_financials)

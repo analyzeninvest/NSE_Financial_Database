@@ -38,7 +38,6 @@ def pull_financial_statement_from_moneycontrol(stock_ticker):
                   }
     return(financials)
 
-                
 def pull_profit_and_loss_statement_from_moneycontrol(stock_ticker):
     """
     This Function will pull the Financial statements from the moneycontrol website.

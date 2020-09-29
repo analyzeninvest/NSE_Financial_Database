@@ -15,15 +15,17 @@ moneycontrol website. Next it will go through each of the financial
 pages like income statement, balance sheet, cash flow statement, key
 ratios & make a xls file for the same.
 
-* Planned tasks [0/3]
+* Planned tasks [1/3]
 
-- [ ] plan the activities
-- [ ] make the python script
-  - [ ] pull financials from moneycontrol
-    - [ ] income statement
-    - [ ] balance sheet
-    - [ ] cash flow
-    - [ ] key ratios
-  - [ ] save to xls with pages
+- [X] plan the activities
+- [-] make the python script
+  - [X] pull financials from moneycontrol
+    - [X] income statement
+    - [X] balance sheet
+    - [X] cash flow
+    - [X] key ratios
+  - [-] save to xls with pages
+    - [X] print the data pulled from moneycontrol
+    - [ ] format as items in first columns & year descending as top row
 - [ ] run script to generate xls for each stock listed in NSE
 
