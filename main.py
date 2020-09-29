@@ -48,23 +48,59 @@ def pull_profit_and_loss_statement_from_moneycontrol(stock_ticker):
     standalone_profit_and_loss_statement_current_page = []
     consolidated_profit_and_loss_statement_current_page = []
     for url in all_urls["standalone"]:
-        standalone_profit_and_loss_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            standalone_profit_and_loss_statement_current_page.append(current_financials)
     for url in all_urls["consolidated"]:
-        consolidated_profit_and_loss_statement_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            consolidated_profit_and_loss_statement_current_page.append(current_financials)
+    standalone_array_length = len(standalone_profit_and_loss_statement_current_page)
+    if standalone_array_length == 4:
+        standalone_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    standalone_profit_and_loss_statement_current_page[0],
+                    standalone_profit_and_loss_statement_current_page[1]),
+                standalone_profit_and_loss_statement_current_page[2]),
+            standalone_profit_and_loss_statement_current_page[3])
+    elif standalone_array_length == 3:
+        standalone_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 standalone_profit_and_loss_statement_current_page[0],
                 standalone_profit_and_loss_statement_current_page[1]),
-            standalone_profit_and_loss_statement_current_page[2]),
-        standalone_profit_and_loss_statement_current_page[3])
-    consolidated_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+            standalone_profit_and_loss_statement_current_page[2])
+    elif standalone_array_length == 2:
+        standalone_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
+            standalone_profit_and_loss_statement_current_page[0],
+            standalone_profit_and_loss_statement_current_page[1])
+    elif standalone_array_length == 1:
+        standalone_profit_and_loss_statement = standalone_profit_and_loss_statement_current_page[0]
+    elif standalone_array_length == 0:
+        standalone_profit_and_loss_statement = {"Name":"--", "Year":[]}
+    consolidated_array_length = len(consolidated_profit_and_loss_statement_current_page)
+    if consolidated_array_length == 4:
+        consolidated_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    consolidated_profit_and_loss_statement_current_page[0],
+                    consolidated_profit_and_loss_statement_current_page[1]),
+                consolidated_profit_and_loss_statement_current_page[2]),
+            consolidated_profit_and_loss_statement_current_page[3])
+    elif consolidated_array_length == 3:
+        consolidated_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 consolidated_profit_and_loss_statement_current_page[0],
                 consolidated_profit_and_loss_statement_current_page[1]),
-            consolidated_profit_and_loss_statement_current_page[2]),
-        consolidated_profit_and_loss_statement_current_page[3])
+            consolidated_profit_and_loss_statement_current_page[2])
+    elif consolidated_array_length == 2:
+        consolidated_profit_and_loss_statement = merge_array_of_2_dictionary_with_same_key(
+            consolidated_profit_and_loss_statement_current_page[0],
+            consolidated_profit_and_loss_statement_current_page[1])
+    elif consolidated_array_length == 1:
+        consolidated_profit_and_loss_statement = consolidated_profit_and_loss_statement_current_page[0]
+    elif consolidated_array_length == 0:
+        consolidated_profit_and_loss_statement = {"Name":"--", "Year":[]}
     profit_and_loss_statements = {"Standalone" : standalone_profit_and_loss_statement, "Consolidated" : consolidated_profit_and_loss_statement}
     return(profit_and_loss_statements)
 
@@ -78,23 +114,59 @@ def pull_balance_sheet_from_moenycontrol(stock_ticker):
     standalone_balance_sheet_current_page = []
     consolidated_balance_sheet_current_page = []
     for url in all_urls["standalone"]:
-        standalone_balance_sheet_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            standalone_balance_sheet_current_page.append(current_financials)
     for url in all_urls["consolidated"]:
-        consolidated_balance_sheet_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_balance_sheet = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            consolidated_balance_sheet_current_page.append(current_financials)
+    standalone_array_length = len(standalone_balance_sheet_current_page)
+    if standalone_array_length == 4:
+        standalone_balance_sheet = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    standalone_balance_sheet_current_page[0],
+                    standalone_balance_sheet_current_page[1]),
+                standalone_balance_sheet_current_page[2]),
+            standalone_balance_sheet_current_page[3])
+    elif standalone_array_length == 3:
+        standalone_balance_sheet = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 standalone_balance_sheet_current_page[0],
                 standalone_balance_sheet_current_page[1]),
-            standalone_balance_sheet_current_page[2]),
-        standalone_balance_sheet_current_page[3])
-    consolidated_balance_sheet = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+            standalone_balance_sheet_current_page[2])
+    elif standalone_array_length == 2:
+        standalone_balance_sheet = merge_array_of_2_dictionary_with_same_key(
+            standalone_balance_sheet_current_page[0],
+            standalone_balance_sheet_current_page[1])
+    elif standalone_array_length == 1:
+        standalone_balance_sheet = standalone_balance_sheet_current_page[0]
+    elif standalone_array_length == 0:
+        standalone_balance_sheet = {"Name":"--", "Year":[]}
+    consolidated_array_length = len(consolidated_balance_sheet_current_page)
+    if consolidated_array_length == 4:
+        consolidated_balance_sheet = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    consolidated_balance_sheet_current_page[0],
+                    consolidated_balance_sheet_current_page[1]),
+                consolidated_balance_sheet_current_page[2]),
+            consolidated_balance_sheet_current_page[3])
+    elif consolidated_array_length == 3:
+        consolidated_balance_sheet = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 consolidated_balance_sheet_current_page[0],
                 consolidated_balance_sheet_current_page[1]),
-            consolidated_balance_sheet_current_page[2]),
-        consolidated_balance_sheet_current_page[3])
+            consolidated_balance_sheet_current_page[2])
+    elif consolidated_array_length == 2:
+        consolidated_balance_sheet = merge_array_of_2_dictionary_with_same_key(
+            consolidated_balance_sheet_current_page[0],
+            consolidated_balance_sheet_current_page[1])
+    elif consolidated_array_length == 1:
+        consolidated_balance_sheet = consolidated_balance_sheet_current_page[0]
+    elif consolidated_array_length == 0:
+        consolidated_balance_sheet = {"Name":"--", "Year":[]}
     balance_sheets = {"Standalone" : standalone_balance_sheet, "Consolidated" : consolidated_balance_sheet}
     return(balance_sheets)
 
@@ -174,23 +246,59 @@ def pull_key_ratios_from_moneycontrol(stock_ticker):
     standalone_ratios_current_page = []
     consolidated_ratios_current_page = []
     for url in all_urls["standalone"]:
-        standalone_ratios_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            standalone_ratios_current_page.append(current_financials)
     for url in all_urls["consolidated"]:
-        consolidated_ratios_current_page.append(pull_attributes_from_moneycontrol(stock_ticker, url))
-    standalone_ratios = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+        current_financials = pull_attributes_from_moneycontrol(stock_ticker, url)
+        if current_financials["Name"] != "--":
+            consolidated_ratios_current_page.append(current_financials)
+    standalone_array_length = len(standalone_ratios_current_page)
+    if standalone_array_length == 4:
+        standalone_ratios = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    standalone_ratios_current_page[0],
+                    standalone_ratios_current_page[1]),
+                standalone_ratios_current_page[2]),
+            standalone_ratios_current_page[3])
+    elif standalone_array_length == 3:
+        standalone_ratios = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 standalone_ratios_current_page[0],
                 standalone_ratios_current_page[1]),
-            standalone_ratios_current_page[2]),
-        standalone_ratios_current_page[3])
-    consolidated_ratios = merge_array_of_2_dictionary_with_same_key(
-        merge_array_of_2_dictionary_with_same_key(
+            standalone_ratios_current_page[2])
+    elif standalone_array_length == 2:
+        standalone_ratios = merge_array_of_2_dictionary_with_same_key(
+            standalone_ratios_current_page[0],
+            standalone_ratios_current_page[1])
+    elif standalone_array_length == 1:
+        standalone_ratios = standalone_ratios_current_page[0]
+    elif standalone_array_length == 0:
+        standalone_ratios = {"Name":"--", "Year":[]}
+    consolidated_array_length = len(consolidated_ratios_current_page)
+    if consolidated_array_length == 4:
+        consolidated_ratios = merge_array_of_2_dictionary_with_same_key(
+            merge_array_of_2_dictionary_with_same_key(
+                merge_array_of_2_dictionary_with_same_key(
+                    consolidated_ratios_current_page[0],
+                    consolidated_ratios_current_page[1]),
+                consolidated_ratios_current_page[2]),
+            consolidated_ratios_current_page[3])
+    elif consolidated_array_length == 3:
+        consolidated_ratios = merge_array_of_2_dictionary_with_same_key(
             merge_array_of_2_dictionary_with_same_key(
                 consolidated_ratios_current_page[0],
                 consolidated_ratios_current_page[1]),
-            consolidated_ratios_current_page[2]),
-        consolidated_ratios_current_page[3])
+            consolidated_ratios_current_page[2])
+    elif consolidated_array_length == 2:
+        consolidated_ratios = merge_array_of_2_dictionary_with_same_key(
+            consolidated_ratios_current_page[0],
+            consolidated_ratios_current_page[1])
+    elif consolidated_array_length == 1:
+        consolidated_ratios = consolidated_ratios_current_page[0]
+    elif consolidated_array_length == 0:
+        consolidated_ratios = {"Name":"--", "Year":[]}
     ratios = {"Standalone" : standalone_ratios, "Consolidated" : consolidated_ratios}
     #print(ratios)
     return(ratios)
@@ -381,10 +489,11 @@ def main():
     import time
     t0 = time.time()
     stock_ticker = 'BDL'
-    stock_financials = pull_cash_flow_statement_from_moenyontrol(stock_ticker)
+    stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
+    #stock_financials = pull_profit_and_loss_statement_from_moneycontrol(stock_ticker)
     #print(stock_financials)
-    #build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
-    print(stock_financials)
+    build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
+    #print(stock_financials)
     t1 = time.time()
     t = t1 - t0
     print("Execution Time: ", t)
