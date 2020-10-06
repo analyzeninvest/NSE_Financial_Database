@@ -1,31 +1,29 @@
 #!/usr/bin/env python
 
+STOCK_TICKER_REF = "BDL"
+
 def main():
     """
     This is only for testing as of now.
     """
-    #cash_flow = pull_cash_flow_statement_from_moenyontrol('TCS')
-    #print(cash_flow)
-    #print(get_url_of_moneycontrol_from_ticker('TCS', "cash flow"))
-    #print(google_moneycontrol_base_sitename('TCS'))
     from moneycontrol_pull_data import pull_financial_statement_from_moneycontrol
-    from print_and_format_xlsx import build_dataframe_and_print_to_excel
+    from print_and_format_xlsx import build_dataframe_and_print_to_excel, transpose_xlsx
+    from get_stock_names_by_industry import get_all_peers_of_industry, get_industry_of_stock
     import time
     t0 = time.time()
-    stock_ticker = 'SUNTV'
-    stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
-    #stock_financials = pull_profit_and_loss_statement_from_moneycontrol(stock_ticker)
-    #print(stock_financials)
-    build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
-    #print(stock_financials)
-    t1 = time.time()
-    t = t1 - t0
-    print("Execution Time: ", t)
-    #d1 = {"a":[1, 2, 3], "b":[11, 12, 13], "c":[0]}
-    #d2 = {"a":[4, 5, 6], "b":[111, 112, 113, 114], "d": [100]}
-    #print(merge_array_of_2_dictionary_with_same_key(d1, d2))
-    #PnL = pull_profit_and_loss_statement_from_moneycontrol('TCS')
-    #print(PnL)
+    main_industry = get_industry_of_stock(STOCK_TICKER_REF)
+    all_peers = get_all_peers_of_industry(main_industry)
+    counter = 1
+    for stock_ticker in all_peers:
+        print("Running for: ", stock_ticker)
+        print("Started " + str(counter) + " of " + str(len(all_peers)) + " stocks")
+        stock_financials = pull_financial_statement_from_moneycontrol(stock_ticker)
+        build_dataframe_and_print_to_excel(stock_financials, stock_ticker)
+        transpose_xlsx(stock_ticker)
+        #print(stock_financials)
+        t1 = time.time()
+        t = t1 - t0
+        print("Execution Time: ", t)
     
 if __name__ == '__main__':
     main()

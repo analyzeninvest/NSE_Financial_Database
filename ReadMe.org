@@ -27,5 +27,9 @@ ratios & make a xls file for the same.
   - [-] save to xls with pages
     - [X] print the data pulled from moneycontrol
     - [ ] format as items in first columns & year descending as top row
-- [ ] run script to generate xls for each stock listed in NSE
+    - [ ] format cell width
+- [-] run script to generate xls for each stock listed in NSE
+  - [X] read in data from existing csv file
+  - [X] capture by industry
+  - [ ] run for all industries
 

@@ -60,6 +60,22 @@ def build_dataframe_and_print_to_excel(financial_data, stock_ticker):
         writer.save()
     writer.save()
     writer.close()
-
-
     
+def transpose_xlsx(stock_ticker):
+    """
+    This will transpose the xlsx and format the cells with correct width.
+    """
+    import pandas as pd
+    filepath = '/home/arnashree/analyzeninvest-projects/NSE_Financial_Database/excel_path/'
+    xlsx_path = filepath + stock_ticker + '.xlsx'
+    xlsx_format_path = filepath + "/format/"+ stock_ticker + '.xlsx'
+    print(xlsx_format_path)
+    writer = pd.ExcelWriter(xlsx_format_path, engine='openpyxl')
+    for sheet in ["Standalone_Profit_and_Loss", "Standalone_Balance_Sheet", "Standalone_Ratio", "Standalone_Cash_Flow", "Consolidated_Profit_and_Loss", "Consolidated_Balance_Sheet", "Consolidated_Ratio", "Consolidated_Cash_Flow"]:
+        df = pd.read_excel(open(xlsx_path, 'rb'), sheet_name = sheet)
+        df_t = df.T
+        df_t.to_excel(writer, sheet_name = sheet, float_format="%.2f", index=False)
+        writer.save()
+    writer.close()
+    
+
