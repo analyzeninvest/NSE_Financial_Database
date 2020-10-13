@@ -33,3 +33,5 @@ ratios & make a xls file for the same.
   - [X] capture by industry
   - [ ] run for all industries
 
+
+

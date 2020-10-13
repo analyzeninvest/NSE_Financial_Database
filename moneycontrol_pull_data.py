@@ -345,6 +345,7 @@ def get_url_of_moneycontrol_from_ticker(stock_ticker, financial_type):
         consolidated_url2 = base_url + 'consolidated-ratiosVI/'+ MC_ticker +'/2#' + MC_ticker
         consolidated_url3 = base_url + 'consolidated-ratiosVI/'+ MC_ticker +'/3#' + MC_ticker
         consolidated_url4 = base_url + 'consolidated-ratiosVI/'+ MC_ticker +'/4#' + MC_ticker
+    #print({"standalone":[standalone_url1, standalone_url2, standalone_url3, standalone_url4],"consolidated":[consolidated_url1, consolidated_url2, consolidated_url3, consolidated_url4]})
     return({"standalone":[standalone_url1, standalone_url2, standalone_url3, standalone_url4],"consolidated":[consolidated_url1, consolidated_url2, consolidated_url3, consolidated_url4]})
 
 def google_moneycontrol_base_sitename(stock_ticker):
@@ -359,13 +360,16 @@ def google_moneycontrol_base_sitename(stock_ticker):
     google_search_op_string = search(query = query_string, stop =20 )
     for url in google_search_op_string:
         #print(url)
-        match = re.match("(https://www.moneycontrol.com/financials/.*?/).*?[/]([0-9A-Za-z]+)", url)
+        match = re.match("(https://www.moneycontrol.com/financials/[a-zA-Z0-9-_]+/).*[/]([0-9A-Za-z]+)", url)
+        #Quarterly_match = re.match(".*quarterly-results", url)
         #https://www.moneycontrol.com/financials/relianceindustries/balance-sheetVI/ri
-        if match:
+        #>>> https://www.moneycontrol.com/financials/astramicrowaveproducts/results/quarterly-results/amp01
+        if match :
             ratio_url = match.group(1)
             MC_ticker = match.group(2)
             break
     return [ratio_url, MC_ticker]
+
 
 def pull_attributes_from_moneycontrol(stock_ticker, url):
     """
