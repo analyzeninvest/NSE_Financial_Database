@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 
 def merge_array_of_2_dictionary_with_same_key(dict1, dict2):
@@ -370,6 +371,7 @@ def google_moneycontrol_base_sitename(stock_ticker):
             break
     return [ratio_url, MC_ticker]
 
+#print(google_moneycontrol_base_sitename("LATIMMETAL"))
 
 def pull_attributes_from_moneycontrol(stock_ticker, url):
     """
@@ -394,9 +396,10 @@ def pull_attributes_from_moneycontrol(stock_ticker, url):
             match = re.match(".td.(.*)[<]span class=.ttn.[>](.*)[<].*[>][<].*[>]", str(td))
             if match:
                 main_key = match.group(1) + match.group(2)
-                name_match = re.match("(.*)amp;(.*)", main_key)
-                if name_match:
-                    main_key = name_match.group(1) + name_match.group(2)
+                main_key = main_key.replace("&amp;", "&")
+                #print(main_key)
+                #if name_match:
+                #    main_key = name_match.group(1) + name_match.group(2)
                 #print(main_key)
             else:
                 match = re.match(".td.Mar ([0-9][0-9])..td.", str(td))
