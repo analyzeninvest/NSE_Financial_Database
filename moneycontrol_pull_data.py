@@ -356,16 +356,17 @@ def google_moneycontrol_base_sitename(stock_ticker):
     """
     from googlesearch import search
     import re
-    query_string = "moneycontrol fianacials of " + stock_ticker
+    query_string = "sitename:moneycontrol fianacials of " + stock_ticker
     ratio_url = ""
     google_search_op_string = search(query = query_string, stop =20 )
     for url in google_search_op_string:
-        #print(url)
+        print(url)
         match = re.match("(https://www.moneycontrol.com/financials/[a-zA-Z0-9-_]+/).*[/]([0-9A-Za-z]+)", url)
+        unmatch = re.match(".*[/][0-9]+", url)
         #Quarterly_match = re.match(".*quarterly-results", url)
         #https://www.moneycontrol.com/financials/relianceindustries/balance-sheetVI/ri
         #>>> https://www.moneycontrol.com/financials/astramicrowaveproducts/results/quarterly-results/amp01
-        if match :
+        if match and not unmatch:
             ratio_url = match.group(1)
             MC_ticker = match.group(2)
             break

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-STOCK_TICKER_REF = "LATIMMETAL"
+STOCK_TICKER_REF = "HINDEVER"
 
 def main():
     """
