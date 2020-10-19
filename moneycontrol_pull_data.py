@@ -360,7 +360,7 @@ def google_moneycontrol_base_sitename(stock_ticker):
     ratio_url = ""
     google_search_op_string = search(query = query_string, stop =20 )
     for url in google_search_op_string:
-        print(url)
+        #print(url)
         match = re.match("(https://www.moneycontrol.com/financials/[a-zA-Z0-9-_]+/).*[/]([0-9A-Za-z]+)", url)
         unmatch = re.match(".*[/][0-9]+", url)
         #Quarterly_match = re.match(".*quarterly-results", url)
